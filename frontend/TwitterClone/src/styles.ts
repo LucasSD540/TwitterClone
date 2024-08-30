@@ -17,4 +17,10 @@ export const GlobalCss = createGlobalStyle`
     background-color: ${colors.background};
   }
 
+  .container {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
 `;
