@@ -1,12 +1,13 @@
 import * as S from "./styles";
 
 export type Props = {
-  BtnName: string;
   BtnColor: string;
+  BtnHeight: string;
+  BtnWidth: string;
 };
 
-export const Button = ({ BtnName, BtnColor }: Props) => (
-  <S.Btn BtnColor={BtnColor}>{BtnName}</S.Btn>
+export const Button = ({ BtnColor, BtnHeight, BtnWidth }: Props) => (
+  <S.Btn BtnColor={BtnColor} BtnHeight={BtnHeight} BtnWidth={BtnWidth}></S.Btn>
 );
 
 export default Button;
