@@ -46,7 +46,7 @@ export const Line = styled.div`
   width: 100%;
 `;
 
-export const ModaLogin = styled.form`
+export const ModalLogin = styled.form`
   max-width: 630px;
   width: 100%;
   height: 500px;
@@ -89,23 +89,24 @@ export const ModaLogin = styled.form`
     font-weight: bold;
     margin-bottom: 24px;
   }
-
-  input {
-    font-size: 15px;
-    font-weight: bold;
-    max-width: 435px;
-    width: 100%;
-    height: 40px;
-    background-color: #000;
-    border: 1px solid #2f3336;
-    border-radius: 5px;
-    margin: 0 auto 20px auto;
-    padding-left: 24px;
-    color: #fff;
-  }
+}
 `;
 
-export const ModaLoginButton = styled.button<{ isDisabled: boolean }>`
+export const StyledInput = styled.input`
+  font-size: 15px;
+  font-weight: bold;
+  max-width: 435px;
+  width: 100%;
+  height: 40px;
+  background-color: #000;
+  border: 1px solid #2f3336;
+  border-radius: 5px;
+  margin: 0 auto 20px auto;
+  padding-left: 24px;
+  color: #fff;
+`;
+
+export const ModalLoginButton = styled.button<{ isDisabled: boolean }>`
   height: 50px;
   max-width: 440px;
   width: 100%;

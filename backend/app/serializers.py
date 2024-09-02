@@ -4,7 +4,7 @@ from .models import User, Post, Comment
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'username', 'email', 'profile_picture', 'bio_content']
+        fields = ['id', 'name', 'username', 'email', 'password', 'profile_picture', 'bio_content']
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)  # Para incluir os dados do autor no Post
