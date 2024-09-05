@@ -1,15 +1,19 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import User, Post, Comment
 from .serializers import UserSerializer, PostSerializer, CommentSerializer
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
-# Para listar ou criar usuários
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
+
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-
-# Para listar ou criar posts
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -17,14 +21,10 @@ class PostListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
-# Para obter detalhes de um post específico ou atualizá-lo
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
-
-# Para listar ou criar comentários
 class CommentListCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -32,3 +32,19 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+@api_view(['POST'])
+def username_login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    print(f"Username: {username}, Password: {password}")
+
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
+    return Response({'detail': 'No active account found with the given credentials'}, status=status.HTTP_401_UNAUTHORIZED)

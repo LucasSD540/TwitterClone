@@ -135,9 +135,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
 }
 
 SIMPLE_JWT = {
@@ -154,12 +157,17 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
-    'TOKEN_USER_ID_CLAIM': 'user_id',
 }
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'app.User'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",

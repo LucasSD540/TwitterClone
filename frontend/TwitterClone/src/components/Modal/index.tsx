@@ -1,6 +1,5 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "../../components/axiosInstance";
 import close_icon from "../../assets/images/close_icon.png";
 import axios from "axios";
 import * as S from "./styles";
@@ -37,7 +36,7 @@ export const Modal = ({ closeModal }: ModalProps) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     try {
-      const response = await axiosInstance.post("users/", {
+      const response = await axios.post("users/", {
         name: values.name,
         username: values.username,
         email: values.email,
