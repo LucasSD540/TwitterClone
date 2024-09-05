@@ -46,76 +46,13 @@ export const Line = styled.div`
   width: 100%;
 `;
 
-export const ModalLogin = styled.form`
-  max-width: 630px;
-  width: 100%;
-  height: 500px;
-  background-color: #000;
+export const Overlay = styled.div<{ modalIsVisible: boolean }>`
+  display: ${({ modalIsVisible }) => (modalIsVisible ? "block" : "none")};
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  border: 1px solid #2f3336;
-  padding: 35px;
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-  z-index: 10;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-
-    button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      max-width: 30px;
-      width: 100%;
-      height: 30px;
-      margin: 0;
-    }
-
-    h3 {
-      font-size: 30px;
-    }
-  }
-
-  p {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 24px;
-  }
-}
-`;
-
-export const StyledInput = styled.input`
-  font-size: 15px;
-  font-weight: bold;
-  max-width: 435px;
-  width: 100%;
-  height: 40px;
-  background-color: #000;
-  border: 1px solid #2f3336;
-  border-radius: 5px;
-  margin: 0 auto 20px auto;
-  padding-left: 24px;
-  color: #fff;
-`;
-
-export const ModalLoginButton = styled.button<{ isDisabled: boolean }>`
-  height: 50px;
-  max-width: 440px;
-  width: 100%;
-  margin: 0 auto;
-  font-size: 15px;
-  font-weight: bold;
-  border: none;
-  border-radius: 15px;
-  color: ${({ isDisabled }) => (isDisabled ? "#000" : "#fff")};
-  background-color: ${({ isDisabled }) => (isDisabled ? "#2f3336" : "#1D9BF0")};
-  cursor: ${({ isDisabled }) => (isDisabled ? "not-allowed" : "pointer")};
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 `;
