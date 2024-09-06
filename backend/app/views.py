@@ -5,7 +5,7 @@ from .models import User, Post, Comment
 from .serializers import UserSerializer, PostSerializer, CommentSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework.views import APIView
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
@@ -14,6 +14,19 @@ class UserListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            "name": user.name,
+            "username": user.username,
+            "email": user.email,
+        }
+        return Response(user_data)
+
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer

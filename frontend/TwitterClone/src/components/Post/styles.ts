@@ -24,4 +24,10 @@ export const PostDivContent = styled.div`
   p {
     margin-bottom: 36px;
   }
+
+  img {
+    max-width: 625px;
+    width: 100%;
+    height: 300px;
+  }
 `;

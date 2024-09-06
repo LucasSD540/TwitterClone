@@ -44,7 +44,7 @@ export const Modal = ({ closeModal }: ModalProps) => {
       });
 
       if (response.status === 201) {
-        alert("Usuário criado com sucesso!");
+        closeModal();
       } else {
         alert("Erro ao criar usuário: " + response.data.detail);
       }

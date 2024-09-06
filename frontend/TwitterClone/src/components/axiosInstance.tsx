@@ -6,8 +6,6 @@ const axiosInstance = axios.create({
 
 export const fetchToken = async (username: string, password: string) => {
   try {
-    console.log("Dados enviados:", { username, password });
-
     const response = await axios.post(
       "http://127.0.0.1:8000/api/username-login/",
       {
@@ -30,10 +28,7 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem("jwtToken");
 
     if (token) {
-      console.log("Token recuperado para envio:", token);
       config.headers["Authorization"] = `Bearer ${token}`;
-    } else {
-      console.log("Nenhum token encontrado");
     }
 
     return config;

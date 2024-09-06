@@ -5,9 +5,11 @@ import { fetchToken } from "../../components/axiosInstance";
 import Modal from "../../components/Modal";
 import { Field, Form, Formik } from "formik";
 import { InputStyle } from "../../components/Input/styles";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   const showModal = () => {
     setModalIsVisible(true);
@@ -23,7 +25,7 @@ const Login = () => {
   ) => {
     try {
       await fetchToken(values.username, values.password);
-      alert("Login bem-sucedido!");
+      navigate("/home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       alert("Erro ao fazer login.");

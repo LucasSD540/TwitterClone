@@ -113,4 +113,8 @@ export const BellowPostDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #5f6368;
+
+  img {
+    cursor: pointer;
+  }
 `;

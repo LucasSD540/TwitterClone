@@ -10,9 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        # Remove a senha dos dados validados para passar ao create_user
         password = validated_data.pop('password', None)
-        # Cria o usuário usando o método create_user
         user = User.objects.create_user(**validated_data, password=password)
         return user
 
@@ -21,7 +19,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'text_content', 'created_at', 'update_at', 'author', 'picture_content']
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
