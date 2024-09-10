@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: "https://lucassd540.pythonanywhere.com/",
 });
 
 export const fetchToken = async (username: string, password: string) => {
   try {
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/username-login/",
+      "https://lucassd540.pythonanywhere.com/api/username-login/",
       {
         username,
         password,
