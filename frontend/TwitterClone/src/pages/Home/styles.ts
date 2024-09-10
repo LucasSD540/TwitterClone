@@ -68,6 +68,7 @@ export const ConfigModal = styled.div`
   height: 70px;
   background-color: #5f6368;
   padding: 8px;
+  border-radius: 15px;
 
   button {
     background-color: #5f6368;
@@ -117,4 +118,33 @@ export const BellowPostDiv = styled.div`
   img {
     cursor: pointer;
   }
+`;
+
+export const Overlay = styled.div<{ search: boolean }>`
+  display: ${({ search }) => (search ? "block" : "none")};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+`;
+
+export const SearchInput = styled.input`
+  position: fixed;
+  max-width: 630px;
+  width: 100%;
+  height: 60px;
+  top: 32px;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 30px;
+  border: none;
+  color: #5f6368;
+  background-color: #2f3336;
+  padding-left: 48px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 1000;
 `;

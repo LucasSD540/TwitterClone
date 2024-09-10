@@ -7,7 +7,7 @@ import picture_icon from "../../assets/images/picture_icon.png";
 import * as S from "./styles";
 import { Btn } from "../../components/Button/styles";
 import Post from "../../components/Post";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../components/axiosInstance";
 
@@ -15,8 +15,12 @@ const Home = () => {
   const [configModal, setConfigModal] = useState(false);
   const [userName, setUserName] = useState("");
   const [posts, setPosts] = useState<any[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<any[]>([]);
   const [postContent, setPostContent] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [search, setSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +37,7 @@ const Home = () => {
       try {
         const response = await axiosInstance.get("/posts/");
         setPosts(response.data);
+        setFilteredPosts(response.data);
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
       }
@@ -41,6 +46,19 @@ const Home = () => {
     fetchUserName();
     fetchPosts();
   }, []);
+
+  const handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const filtered = posts.filter((post) =>
+        post.text_content.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    }
+  };
 
   const showConfigModal = () => {
     setConfigModal(true);
@@ -82,6 +100,7 @@ const Home = () => {
 
         const response = await axiosInstance.get("/posts/");
         setPosts(response.data);
+        setFilteredPosts(response.data);
         setPostContent("");
         setSelectedImage(null);
       } catch (error) {
@@ -94,87 +113,127 @@ const Home = () => {
     document.getElementById("imageInput")?.click();
   };
 
+  const handlePostDelete = (postId: number) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+    setFilteredPosts((prevPosts) =>
+      prevPosts.filter((post) => post.id !== postId)
+    );
+  };
+
+  const handleFocusInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const showHandleSearch = () => {
+    setSearch(true);
+  };
+
+  const closeHandleSearch = () => {
+    setSearch(false);
+  };
+
   return (
-    <S.MainDiv className="container">
-      <S.SidebarDiv>
-        <h3>TwitterClone</h3>
-        <S.IconDiv>
-          <img src={home_icon} alt="Ícone de início" />
-          <p>Home</p>
-        </S.IconDiv>
-        <S.IconDiv>
-          <img src={search_icon} alt="Ícone de pesquisa" />
-          <p>Search</p>
-        </S.IconDiv>
-        <S.IconDiv>
-          <img src={profile_icon} alt="Ícone de perfil" />
-          <p>Profile</p>
-        </S.IconDiv>
-        <Btn BtnColor="#1D9BF0" BtnHeight="50px" BtnWidth="220px">
-          Post
-        </Btn>
-        {configModal ? (
-          <S.ConfigModal
-            onMouseEnter={showConfigModal}
-            onMouseOut={closeConfigModal}
-          >
-            <button onMouseEnter={showConfigModal} onClick={handleLogout}>
-              Fazer logout
-            </button>
-          </S.ConfigModal>
-        ) : (
-          <></>
-        )}
-        <S.UserDiv>
-          <div>
-            <img src={people_icon} alt="Foto do usuário" />
-            <p>{userName}</p>
-          </div>
-          <button onMouseEnter={showConfigModal}>...</button>
-        </S.UserDiv>
-      </S.SidebarDiv>
-      <S.FeedDiv>
-        <S.PostDiv>
-          <img src={people_icon} alt="Foto do usuário" />
-          <input
+    <>
+      <S.Overlay search={search} onClick={closeHandleSearch} />
+      <S.MainDiv className="container">
+        {search && (
+          <S.SearchInput
             type="text"
-            placeholder="What is happening?!"
-            value={postContent}
-            onChange={handlePostContentChange}
+            placeholder="Search post"
+            value={searchQuery}
+            onChange={handleSearchQueryChange}
+            onKeyDown={handleSearchSubmit}
           />
-        </S.PostDiv>
-        <S.BellowPostDiv>
-          <img
-            src={picture_icon}
-            alt="Ícone de foto"
-            onClick={handleImageClick}
-          />
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-          />
+        )}
+        <S.SidebarDiv>
+          <h3>TwitterClone</h3>
+          <S.IconDiv>
+            <img src={home_icon} alt="Ícone de início" />
+            <p>Home</p>
+          </S.IconDiv>
+          <S.IconDiv onClick={showHandleSearch}>
+            <img src={search_icon} alt="Ícone de pesquisa" />
+            <p>Search</p>
+          </S.IconDiv>
+          <S.IconDiv>
+            <img src={profile_icon} alt="Ícone de perfil" />
+            <p>Profile</p>
+          </S.IconDiv>
           <Btn
             BtnColor="#1D9BF0"
-            BtnHeight="36px"
-            BtnWidth="66px"
-            onClick={handlePostSubmit}
+            BtnHeight="50px"
+            BtnWidth="220px"
+            onClick={handleFocusInput}
           >
             Post
           </Btn>
-        </S.BellowPostDiv>
-        {posts.map((post) => (
-          <Post
-            key={post.id}
-            author={post.author}
-            textContent={post.text_content}
-            imageUrl={post.picture_content}
-          />
-        ))}
-      </S.FeedDiv>
-    </S.MainDiv>
+          {configModal && (
+            <S.ConfigModal
+              onMouseEnter={showConfigModal}
+              onMouseOut={closeConfigModal}
+            >
+              <button onMouseEnter={showConfigModal} onClick={handleLogout}>
+                Fazer logout
+              </button>
+            </S.ConfigModal>
+          )}
+          <S.UserDiv>
+            <div>
+              <img src={people_icon} alt="Foto do usuário" />
+              <p>{userName}</p>
+            </div>
+            <button onMouseEnter={showConfigModal}>...</button>
+          </S.UserDiv>
+        </S.SidebarDiv>
+        <S.FeedDiv>
+          <S.PostDiv>
+            <img src={people_icon} alt="Foto do usuário" />
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="What is happening?!"
+              value={postContent}
+              onChange={handlePostContentChange}
+            />
+          </S.PostDiv>
+          <S.BellowPostDiv>
+            <img
+              src={picture_icon}
+              alt="Ícone de foto"
+              onClick={handleImageClick}
+            />
+            <input
+              type="file"
+              id="imageInput"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <Btn
+              BtnColor="#1D9BF0"
+              BtnHeight="36px"
+              BtnWidth="66px"
+              onClick={handlePostSubmit}
+            >
+              Post
+            </Btn>
+          </S.BellowPostDiv>
+          {filteredPosts.map((post) => (
+            <Post
+              key={post.id}
+              id={post.id}
+              author={post.author}
+              textContent={post.text_content}
+              imageUrl={post.picture_content}
+              loggedInUser={userName}
+              onDelete={handlePostDelete}
+            />
+          ))}
+        </S.FeedDiv>
+      </S.MainDiv>
+    </>
   );
 };
 

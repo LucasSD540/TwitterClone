@@ -36,7 +36,7 @@ export const Modal = ({ closeModal }: ModalProps) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     try {
-      const response = await axios.post("users/", {
+      const response = await axios.post("api/user/", {
         name: values.name,
         username: values.username,
         email: values.email,

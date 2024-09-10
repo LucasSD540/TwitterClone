@@ -11,10 +11,16 @@ export const PostDiv = styled.div`
 export const PostDivUserInfo = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 24px 0 16px 24px;
 
   img {
-    margin-right: 12px;
+    margin-right: 24px;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -30,4 +36,10 @@ export const PostDivContent = styled.div`
     width: 100%;
     height: 300px;
   }
+`;
+
+export const RemoveBtn = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
 `;
