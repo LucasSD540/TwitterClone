@@ -16,6 +16,7 @@ djangorestframework-simplejwt = "^5.3.1"
 django-filter = "^24.3"
 django-cors-headers = "^4.4.0"
 python-decouple = "^3.8"
+gitpython = "^3.1.43"
 
 [build-system]
 requires = ["poetry-core"]
