@@ -170,6 +170,8 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = 'app.User'
 
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'LucasSD540.pythonanywhere.com']
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "https://lucassd540.pythonanywhere.com",
 ]
