@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import close_icon from "../../assets/images/close_icon.png";
 import axios from "axios";
 import * as S from "./styles";
+import axiosInstance from "../axiosInstance";
 
 interface ModalProps {
   closeModal: () => void;
@@ -36,7 +37,7 @@ export const Modal = ({ closeModal }: ModalProps) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     try {
-      const response = await axios.post("api/user/", {
+      const response = await axiosInstance.post("api/user/", {
         name: values.name,
         username: values.username,
         email: values.email,
