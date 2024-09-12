@@ -28,9 +28,6 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='default-secret-key-for-develop
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
