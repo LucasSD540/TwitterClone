@@ -170,8 +170,8 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = 'app.User'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'LucasSD540.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'LucasSD540.pythonanywhere.com', 'https://twitter-clone-jet-ten.vercel.app/']
 
 CORS_ALLOWED_ORIGINS = [
-    "https://lucassd540.pythonanywhere.com",
+    "https://twitter-clone-jet-ten.vercel.app/",
 ]
